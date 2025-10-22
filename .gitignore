@@ -1,0 +1,40 @@
+# Airflow
+logs/
+airflow.db
+airflow.cfg
+unittests.cfg
+airflow-webserver.pid
+standalone_admin_password.txt
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# ML Models
+dags/ml_pipeline/model/*.pkl
+dags/ml_pipeline/model/*.h5
+
+# Data
+dags/ml_pipeline/data/*.csv
+
+# Environment
+.env
+.venv
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
