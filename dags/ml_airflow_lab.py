@@ -22,8 +22,10 @@ default_args = {
     'owner': 'bafode',
     'depends_on_past': False,
     'start_date': datetime(2025, 10, 22),
-    'email': ['bafode@example.com'],  # Remplace par ton email
+    'schedule_interval' : 'None',
+    'email': ['bafodejaiteh2@gmail.com'],  # Remplace par ton email
     'email_on_failure': True,
+    'email_on_success': True,
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
@@ -87,6 +89,45 @@ def task_evaluate_model(**context):
     
     return f"Model evaluated. Accuracy: {accuracy:.4f}"
 
+def call_flask_api(**context):
+    """
+    Appelle l'API Flask pour mettre à jour le statut du pipeline
+    """
+    import requests
+    
+    # Accès standard au contexte Airflow 
+    dag_id = context['dag'].dag_id  # ID du DAG 
+    run_id = context['run_id']  # ID de la run
+    execution_date = context['ds']  # Date exécution
+    execution_date_full = context['ts']  # Timestamp complet
+    
+    status = 'success' 
+    payload = {
+        'dag_id': dag_id,
+        'status': status,
+        'run_id': run_id,
+        'execution_date': execution_date_full,  
+        'ds': execution_date  
+    }
+    
+    try:
+        response = requests.post('http://flask-api:5000/api/v1/update-status', json=payload, timeout=30)
+        print(f"API Flask appelée : {response.status_code}")
+        print(f"Payload : {payload}")  # Debug pour voir les valeurs exactes
+        if response.status_code in [200, 201]:
+            return f"API appelée avec succès : {response.status_code}"
+        else:
+            print(f"Erreur HTTP {response.status_code}: {response.text}")
+            raise Exception(f"API returned {response.status_code}")
+    except requests.exceptions.RequestException as e:
+        print(f"Erreur réseau Flask : {e}")
+        raise e
+    except Exception as e:
+        print(f"Erreur dans call_flask_api : {e}")
+        raise e
+
+
+
 # Définition du DAG
 with DAG(
     'ml_pipeline_lab',
@@ -128,11 +169,24 @@ with DAG(
     )
 
     # Tâche 6 : Notification succès
-    success_notification = BashOperator(
-        task_id='success_notification',
-        bash_command='echo "Pipeline ML completed successfully!"',
-    )
+    success_notification = EmailOperator(
+    task_id='success_notification',
+    from_email='bafodejaiteh2@gmail.com',
+    to='bafodejaiteh2@gmail.com',
+    subject='Pipeline ML terminée avec succès',
+    html_content='<h3>Le pipeline ML s\'est terminé avec succès.</h3>',
+    dag=dag,
+    conn_id='smtp_gmail',
+    
+)
+    
+    # Tâche 7 : flask api
+    api_task = PythonOperator(
+    task_id='call_api',
+    python_callable=call_flask_api,
+    dag=dag
+)
 
     # Définir les dépendances
-    load_data_task >> preprocess_data_task >> separate_data_task >> build_model_task >> evaluate_model_task >> success_notification
+    load_data_task >> preprocess_data_task >> separate_data_task >> build_model_task >> evaluate_model_task >> success_notification  >> api_task
 
