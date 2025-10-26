@@ -1,4 +1,5 @@
-Airflow MLOps Lab - Pipeline Machine Learning Industrialisé
+# Airflow MLOps Lab - Pipeline Machine Learning
+
 📋 Description
 Ce projet démontre l'industrialisation d'un pipeline ML avec Apache Airflow 3.1.0 pour automatiser le workflow complet d'un modèle de régression logistique sur le dataset advertising.csv (prédiction de conversions TV/radio/newspaper). Le pipeline orchestre 7 tâches critiques MLOps :​
 
@@ -206,15 +207,7 @@ Email Test : docker compose exec airflow-worker airflow tasks test ml_pipeline_l
 
 API Test : curl -X POST http://localhost:5000/api/v1/update-status -d '{"status":"success"}' -H "Content-Type: application/json".
 
-🐛 Troubleshooting
-Problème	Cause Possible	Solution
-DAG non visible	Dags folder non monté.	docker compose restart airflow-dag-processor, vérifie ./dags/ml_airflow_lab.py.
-Tâche call_api échoue (404)	Flask non accessible (réseau Docker). ​	docker exec airflow-worker curl http://flask-api:5000 (doit 200), restart compose.
-Email non envoyé	SMTP config Gmail.	Vérifie .env (app-password, pas mot de passe normal), logs worker grep EmailOperator.
-API v1 404	Migration 3.1.0 (v1 supprimé). ​	Utilise v2 : /api/v2/dags/ml_pipeline_lab, health /api/v2/monitor/health.
-DB Connection Refused	Postgres non up.	docker ps | grep postgres (healthy), docker compose logs postgres.
-Modèle non sauvegardé	Permissions /opt/airflow.	Vérifie volumes ./dags:/opt/airflow/dags, logs build_model.
-Scheduler ne trigger pas	DAG paused.	UI → Toggle On, airflow dags unpause ml_pipeline_lab.
+
 Logs Généraux : docker compose logs -f (tous services temps réel).
 Erreurs Courantes : Vérifie docker-compose.yaml (ports, env vars), airflow.cfg (providers smtp installés).
 
