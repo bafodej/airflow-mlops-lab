@@ -40,7 +40,7 @@ Dépendances : pandas, numpy, joblib (sauvegarde modèle .pkl), requests (call_a
 
 Projet : Lab MLOps - Industrialisation pipeline ML avec Airflow.
 
-🚀 Installation & Démarrage
+ Installation & Démarrage
 Prérequis
 Docker : docker --version (20.x+ requis).
 
@@ -54,19 +54,7 @@ Variables d'environnement : Crée .env avec SMTP Gmail (email/password/app-passw
 
 Fichier .env exemple (non commité) :
 
-text
-AIRFLOW__CORE__LOAD_EXAMPLES=False
-AIRFLOW__SMTP__SMTP_HOST=smtp.gmail.com
-AIRFLOW__SMTP__SMTP_PORT=587
-AIRFLOW__SMTP__SMTP_MAIL_FROM=ton-email@gmail.com
-AIRFLOW__SMTP__SMTP_PASSWORD=ton-app-password
-AIRFLOW__API__AUTH_BACKENDS=airflow.api.auth.backend.basic
-AIRFLOW__CORE__EXECUTOR=LocalExecutor
-POSTGRES_USER=airflow
-POSTGRES_PASSWORD=airflow
-POSTGRES_DB=airflow
-Étapes d'Installation
-Clone & Setup :
+
 
 bash
 git clone <repo> && cd airflow-mlops-lab
@@ -86,7 +74,6 @@ docker compose exec airflow-worker airflow users create \
   --email admin@example.com --password admin  # User admin/admin
 Accès :
 
-UI Airflow : http://localhost:8080 (login : admin/admin).
 
 API v2 Health : curl http://localhost:8080/api/v2/monitor/health (tous "healthy").​
 
