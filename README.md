@@ -65,16 +65,6 @@ Temps : 5 min premier, 1 min relance.
 
 **Sortie** : Artefacts `.pkl`/CSV ; Intégration API success.
 
-## 🏗️ Structure
-airflow-mlops-lab/
-├── dags/ # ml_airflow_lab.py, model_development.py
-├── data/ # advertising.csv
-├── model/ # logistic_regression_model.pkl
-├── api/ # app.py (Flask)
-├── docker-compose.yaml
-├── .env.example
-├── requirements.txt
-└── README.md
 
 text
 Volumes : dags/logs persistants, Postgres data.
@@ -87,5 +77,3 @@ Volumes : dags/logs persistants, Postgres data.
 
 ## 👤 Auteur
 Bafode Jaiteh – Formation Développeur IA/Data Simplon Lille. [GitHub](https://github.com/bafodej) | [LinkedIn](https://linkedin.com/in/bafodejaiteh).
-
-**Contributions** : PR welcome. Roadmap : CI/CD, Azure deploy.
