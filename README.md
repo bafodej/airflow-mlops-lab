@@ -15,7 +15,7 @@ Industrialisation d'un pipeline ML avec Apache Airflow 3.1.0 : automatisation d'
 - `success_notification` : Email SMTP Gmail.
 - `call_api` : POST Flask API (port 5000, 200 OK).
 
-**Valeur** : Automatisation workflow (énoncé Simplon Lille), monitoring UI/API v2, traçabilité XCom/retries, scalable (16 runs). Idéal pour MLOps production-ready en formation IA/Data.
+**Valeur** : Automatisation workflow , monitoring UI/API v2, traçabilité XCom/retries, scalable (16 runs). Idéal pour MLOps production-ready en formation IA/Data.
 
 ## 🛠️ Stack
 
